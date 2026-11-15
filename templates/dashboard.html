@@ -739,7 +739,6 @@ thead th{white-space:nowrap}
     NoShow.showScreen('results');
     renderWithPhone(j.rows);
     NoShow.setCallsLeft(j.n_calls);
-    restoreCalled();
 
   }
 
@@ -802,22 +801,6 @@ thead th{white-space:nowrap}
       nb.textContent='Build my call list'; nb.disabled=false;
       var hint = $('uploadHint'); hint.textContent='Something went wrong reading that file.'; hint.classList.add('err');
     });
-  });
-
-  function calledKeys(){ try { return JSON.parse(localStorage.getItem('nsr_called')||'[]'); } catch(e){ return []; } }
-  function restoreCalled(){
-    var keys = calledKeys();
-    document.querySelectorAll('#callListBody tr').forEach(function(tr){
-      var name = tr.children[1].textContent.trim(), time = tr.children[2].textContent.trim();
-      if (keys.indexOf(name+'|'+time) !== -1){ tr.classList.add('done'); tr.style.display='none'; }
-    });
-  }
-  $('callListBody').addEventListener('click', function(e){
-    var b = e.target.closest('.calledBtn'); if (!b) return;
-    var tr = b.closest('tr');
-    var keys = calledKeys();
-    keys.push(tr.children[1].textContent.trim()+'|'+tr.children[2].textContent.trim());
-    localStorage.setItem('nsr_called', JSON.stringify(keys));
   });
 
   var strip = document.createElement('div');
